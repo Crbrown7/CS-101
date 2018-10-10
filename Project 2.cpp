@@ -5,33 +5,34 @@
 #include <fstream>
 #include <vector>
 #include <string>
+#include <algorithm>
+#include <iterator>
 
 using namespace std;
 
 
 void cleanStrings(vector<string> oldVector, int size) {
 // Prints elements in both vectors without duplicates
+
+
+if(size){
+
   cout << oldVector.at(0) << endl;
 
   for (int i = 1; i < size; i++) {
     if (oldVector.at(i) != oldVector.at(i-1)) {
       cout << oldVector.at(i) << endl;
+      }
     }
   }
 }
 
-void stringCompare(string a[], int size1, string b[], int size2, vector<string> &Dups) {
+void stringCompare(vector<string> a, std::vector<string> b, vector<string> &v_intersectionString) {
 // Compares both arrays, for same elements, then stores into Dups vector.
-  int l = 0;
 
-  for (int i = 0; i < size1; i++) {
-    for (int j = 0; j < size2; j++) {
-      if (a[i] == b[j]) {
-        Dups.push_back(a[i]);
-        l++;
-      }
-    }
-  }
+set_intersection(a.begin(), a.end(), b.begin(), b.end(), back_inserter(v_intersectionString));
+
+
 }
 
 
@@ -152,30 +153,28 @@ void MergeSortints(int *a, int low, int high)
 	}
 }
 
-void arrayCompare(int a[], int count1, int b[], int count2, vector<int> &Dups) {
+void arrayCompare(vector<int> a, vector<int> b, vector<int> &v_intersection) {
   // Function to compare both arrays and get rid of duplicates
 
-  int l = 0;
-  for (int i = 0; i < count1; i++) {
-    for (int j = 0; j < count2; j++) {
-      if (a[i] == b[j]) {
-        Dups.push_back(a[i]);
-        l++;
-      }
-    }
-  }
+set_intersection(a.begin(), a.end(), b.begin(), b.end(), back_inserter(v_intersection));
+
 }
 
 void cleanArray(vector<int> oldVector, int size) {
   // Function that prints the sorted list with no duplicates
+
+
+if(size){
+
 
 cout << oldVector.at(0) << endl;
 
 for (int i = 1; i < size; i++) {
   if (oldVector.at(i) != oldVector.at(i-1)) {
     cout << oldVector.at(i) << endl;
+      }
+    }
   }
-}
 }
 
 int main(int argc, char const *argv[]) {
@@ -187,6 +186,7 @@ string s = "s";
 if (argv[1] == i) {
   std::vector<int> Dups;
   std::vector<int> arr;
+  vector<int> v_intersection;
 
   ifstream File;
   File.open(argv[2]);
@@ -223,8 +223,20 @@ if (argv[1] == i) {
 
   MergeSortints(unsortedArray,0,arr.size() - 1);
   MergeSortints(unsorted,0,arrr.size() - 1);
-  arrayCompare(unsortedArray,arr.size(),unsorted, arrr.size(), Dups);
-  cleanArray(Dups,Dups.size());
+
+
+  for (int i = 0; i < arr.size(); i++) {
+
+    arr.at(i) = unsortedArray[i];
+  }
+
+  for (int i = 0; i < arrr.size(); i++) {
+    arrr.at(i) = unsorted[i];
+  }
+
+
+  arrayCompare(arr, arrr , v_intersection);
+  cleanArray(v_intersection, v_intersection.size());
 
 }
 
@@ -232,6 +244,7 @@ if (argv[1] == i) {
 if (argv[1] == s) {
   vector<string> array;
   vector<string> Dups;
+  vector<string> v_intersectionString;
 
   ifstream File;
   File.open(argv[2]);
@@ -267,8 +280,20 @@ if (argv[1] == s) {
 
   MergeSort(stringArr1,0,array.size() - 1);
   MergeSort(stringArr2,0,array2.size() - 1);
-  stringCompare(stringArr1,array.size(), stringArr2, array2.size(), Dups);
-  cleanStrings(Dups, Dups.size());
+
+
+  for (int i = 0; i < array.size(); i++) {
+    array.at(i) = stringArr1[i];
+  }
+
+
+  for (int i = 0; i < array2.size(); i++) {
+    array2.at(i) = stringArr2[i];
+  }
+
+
+  stringCompare(array, array2, v_intersectionString);
+  cleanStrings(v_intersectionString, v_intersectionString.size());
 
 }
 
